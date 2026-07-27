@@ -27,6 +27,13 @@
   --pink-soft: #F5C7C9;
   --pink-red: #F8819B;
   --beige: #EFE4D4;
+  --beige-deep: #b58a4a;
+  --beige-hot: #c9a063;
+  --beige-soft: #f5e9d8;
+  --yellow-light: #FAE593;
+  --orange-hot: #FE8F29;
+  --orange-deep: #e67e00;
+  --orange-soft: #fff0c2;
   --cyan-light: #CAEBED;
   --blue-mid: #63BAD9;
   --blue-soft: #B5DAE9;
@@ -390,7 +397,19 @@ html, body {
   background: var(--blue-mid);
   color: white;
 }
-.btn-blue:hover { background: #4ea8c9; }
+.btn-orange {
+  background: var(--orange-hot);
+  color: white;
+  box-shadow: 0 2px 8px rgba(254, 143, 41, 0.35);
+}
+.btn-orange:hover { background: var(--orange-deep); }
+
+.btn-beige {
+  background: var(--beige-hot);
+  color: white;
+  box-shadow: 0 2px 8px rgba(201, 160, 99, 0.35);
+}
+.btn-beige:hover { background: var(--beige-deep); }
 
 .btn-outline {
   background: var(--white);
@@ -1056,13 +1075,13 @@ select.input {
 }
 
 .study-duration-card {
-  background: linear-gradient(135deg, var(--blue-soft) 0%, #f0f8ff 100%);
+  background: linear-gradient(135deg, var(--beige-soft) 0%, #fffaf2 100%);
 }
 
 .study-duration-value {
   font-size: 32px;
   font-weight: 800;
-  color: var(--blue-mid);
+  color: var(--beige-deep);
 }
 
 .study-duration-label {
@@ -1082,7 +1101,9 @@ select.input {
   outline: none;
 }
 
-.study-duration-input:focus { border-color: var(--blue-mid); }
+.study-duration-input:focus { border-color: var(--beige-hot); }
+
+.tag-beige { background: var(--beige-soft); color: var(--beige-deep); }
 
 /* 全屏模态 */
 .study-modal-overlay {
@@ -1144,7 +1165,7 @@ select.input {
    健身页面
    ============================================ */
 .fitness-hero {
-  background: linear-gradient(135deg, var(--green-light) 0%, #f5ffe8 100%);
+  background: linear-gradient(135deg, var(--yellow-light) 0%, #fff8e0 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1159,7 +1180,7 @@ select.input {
 }
 
 .fitness-weekly-text strong {
-  color: var(--green-deep);
+  color: var(--orange-hot);
   font-size: 22px;
 }
 
@@ -1173,14 +1194,14 @@ select.input {
 .timer-display {
   font-size: 40px;
   font-weight: 800;
-  color: var(--green-deep);
+  color: var(--orange-hot);
   font-variant-numeric: tabular-nums;
   letter-spacing: 1px;
 }
 
 .fitness-calendar .calendar-day.achieved {
-  background: var(--green-light);
-  color: var(--green-deep);
+  background: var(--orange-soft);
+  color: var(--orange-deep);
 }
 
 .fitness-calendar .calendar-day.achieved::after {
@@ -1189,8 +1210,10 @@ select.input {
   bottom: 2px;
   right: 4px;
   font-size: 10px;
-  color: var(--green-deep);
+  color: var(--orange-deep);
 }
+
+.tag-orange { background: var(--orange-soft); color: var(--orange-deep); }
 
 .fitness-calendar .calendar-day.missed {
   background: var(--bg-main);

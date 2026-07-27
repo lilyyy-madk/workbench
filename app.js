@@ -108,8 +108,8 @@ const App = {
       todo:    { title: '✅ 待办事项', color: '#E4F6A9', deep: '#5ba85b', theme: '#7dc67d' },
       water:   { title: '💧 喝水提醒', color: '#CAEBED', deep: '#4ea8c9', theme: '#63BAD9' },
       diet:    { title: '🍽️ 饮食记录', color: '#FED0D6', deep: '#F8819B', theme: '#FF82A2' },
-      study:   { title: '📚 每日学习', color: '#EFE4D4', deep: '#b58a4a', theme: '#EFE4D4' },
-      fitness: { title: '🏃 健身计划', color: '#E4F6A9', deep: '#5ba85b', theme: '#7dc67d' },
+      study:   { title: '📚 每日学习', color: '#EFE4D4', deep: '#9a7040', theme: '#EFE4D4' },
+      fitness: { title: '🏃 健身计划', color: '#FAE593', deep: '#FE8F29', theme: '#FE8F29' },
       settings:{ title: '⚙️ 设置',     color: '#f0f0ec', deep: '#8a9a8a', theme: '#7dc67d' },
     };
     const meta = pageMeta[page] || pageMeta.todo;
@@ -1442,11 +1442,11 @@ const StudyPage = {
       <div class="card study-progress-card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
           <span style="font-size:13px;color:var(--text-secondary);font-weight:600">学习完成进度</span>
-          <span class="tag tag-pink">${pct}%</span>
+          <span class="tag tag-beige">${pct}%</span>
         </div>
-        <div class="todo-progress-text" style="color:var(--text-primary)">${doneCount}<small>/${total}</small></div>
+        <div class="todo-progress-text" style="color:var(--beige-deep)">${doneCount}<small>/${total}</small></div>
         <div class="progress-bar" style="margin-top:12px">
-          <div class="progress-bar-fill" style="width:${pct}%;background:linear-gradient(90deg,var(--pink-hot),var(--pink-red))"></div>
+          <div class="progress-bar-fill" style="width:${pct}%;background:linear-gradient(90deg,var(--beige-hot),var(--beige-deep))"></div>
         </div>
       </div>
 
@@ -1456,7 +1456,7 @@ const StudyPage = {
             <div style="font-size:13px;color:var(--text-secondary);font-weight:600;margin-bottom:4px">⏱️ 今日学习时长</div>
             <div class="study-duration-value">${hours}<span style="font-size:18px">h</span> ${mins}<span style="font-size:18px">min</span></div>
           </div>
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--blue-mid)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--beige-deep)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
       </div>
 
@@ -1470,7 +1470,7 @@ const StudyPage = {
         ${data.tasks.length === 0 ? '<div class="empty-state"><div class="empty-state-icon">📚</div><div class="empty-state-text">添加今天的学习任务吧～<br>如「行测一套卷」「申论一篇」</div></div>' : ''}
         <div class="todo-add-row">
           <input class="input" id="studyInput" placeholder="添加学习任务..." maxlength="30" />
-          <button class="btn btn-pink" id="studyAddBtn">
+          <button class="btn btn-beige" id="studyAddBtn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             添加
           </button>
@@ -1709,7 +1709,7 @@ const StudyPage = {
         <span class="study-modal-emoji">${quote.emoji}</span>
         <div class="study-modal-quote">${Utils.escapeHtml(quote.text)}</div>
         <div class="study-modal-sub">今日学习任务还未开始，加油！</div>
-        <button class="btn btn-pink btn-lg btn-block" id="goStudyBtn">去学习</button>
+        <button class="btn btn-beige btn-lg btn-block" id="goStudyBtn">去学习</button>
       </div>
     `;
     document.body.appendChild(overlay);
@@ -1837,8 +1837,8 @@ const FitnessPage = {
       if (this.timerRunning) {
         btnArea.innerHTML = `
           <button class="btn btn-outline" id="pauseBtn">${this.timerPaused ? '继续' : '暂停'}</button>
-          <button class="btn btn-primary" id="finishBtn">结束计时</button>
-          <button class="btn btn-pink" id="earlyBtn">提前完成</button>
+          <button class="btn btn-orange" id="finishBtn">结束计时</button>
+          <button class="btn btn-orange" id="earlyBtn">提前完成</button>
         `;
         this.bindTimerButtons();
       }
@@ -1927,9 +1927,9 @@ const FitnessPage = {
     // 颜色规则
     let ringColor;
     if (weekTotal <= 120) {
-      ringColor = '#7dc67d'; // 绿色
+      ringColor = '#FE8F29'; // 橙色
     } else if (weekTotal <= 180) {
-      ringColor = '#ffa94d'; // 橙色
+      ringColor = '#ffa94d'; // 浅橙
     } else {
       ringColor = '#ff6b6b'; // 红色
     }
@@ -1958,7 +1958,7 @@ const FitnessPage = {
             </div>
           </div>
           <div class="fitness-weekly-text">本周锻炼 <strong>${weekTotal}</strong> / ${this.WEEKLY_GOAL} 分钟</div>
-          ${achieved ? '<span class="tag tag-green" style="margin-top:4px">✓ 已达标</span>' : `<span class="tag tag-blue" style="margin-top:4px">还差 ${this.WEEKLY_GOAL - weekTotal} 分钟</span>`}
+          ${achieved ? '<span class="tag tag-orange" style="margin-top:4px">✓ 已达标</span>' : `<span class="tag tag-orange" style="margin-top:4px">还差 ${this.WEEKLY_GOAL - weekTotal} 分钟</span>`}
         </div>
 
         <div class="fitness-controls">
@@ -1992,14 +1992,14 @@ const FitnessPage = {
           <div style="font-size:13px;color:var(--text-secondary);margin:8px 0 12px">锻炼中… 剩余 ${Utils.formatTime(Math.max(0, 120*60 - this.timerSeconds))}</div>
           <div id="timerBtnArea" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
             <button class="btn btn-outline" id="pauseBtn">${this.timerPaused ? '继续' : '暂停'}</button>
-            <button class="btn btn-primary" id="finishBtn">结束计时</button>
-            <button class="btn btn-pink" id="earlyBtn">提前完成</button>
+            <button class="btn btn-orange" id="finishBtn">结束计时</button>
+            <button class="btn btn-orange" id="earlyBtn">提前完成</button>
           </div>
         </div>
       `;
     }
     return `
-      <button class="btn btn-primary btn-lg" id="startBtn">
+      <button class="btn btn-orange btn-lg" id="startBtn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         开始锻炼
       </button>
@@ -2014,9 +2014,9 @@ const FitnessPage = {
     }
     const total = data.total || 0;
     return `
-      <div style="display:flex;justify-content:space-between;margin-bottom:12px;padding:8px 12px;background:var(--green-light);border-radius:8px">
-        <span style="font-weight:700;color:var(--green-deep)">今日合计</span>
-        <span style="font-weight:700;color:var(--green-deep)">${total} 分钟</span>
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px;padding:8px 12px;background:var(--orange-soft);border-radius:8px">
+        <span style="font-weight:700;color:var(--orange-deep)">今日合计</span>
+        <span style="font-weight:700;color:var(--orange-deep)">${total} 分钟</span>
       </div>
       ${data.records.map(r => {
         const time = new Date(r.time);
