@@ -269,8 +269,27 @@ html, body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+.mobile-title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.mobile-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.mobile-date {
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
 .page-header {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .page-title {
@@ -278,11 +297,23 @@ html, body {
   font-weight: 800;
   color: var(--text-primary);
   margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .page-subtitle {
   font-size: 13px;
   color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    display: none;
+  }
+  .page-header {
+    margin-bottom: 12px;
+  }
 }
 
 /* 卡片 */
@@ -866,46 +897,86 @@ select.input {
   margin-top: 8px;
 }
 
-.meal-tabs {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 16px;
+.meal-selector-card {
   background: var(--white);
-  padding: 4px;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
 }
 
-.meal-tab {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  background: transparent;
-  border-radius: var(--radius-sm);
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.2s;
+.meal-selector {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.meal-option {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
+  padding: 12px 8px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--divider);
+  background: var(--white);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  min-width: 0;
 }
 
-.meal-tab.active {
-  background: var(--green-primary);
-  color: white;
+.meal-option:hover {
+  border-color: var(--pink-light);
+  background: var(--pink-light);
 }
 
-.meal-tab-kcal {
-  font-size: 11px;
+.meal-option.selected {
+  border-color: var(--pink-hot);
+  background: var(--pink-light);
+  color: var(--pink-red);
+  transform: scale(1.03);
+  box-shadow: 0 2px 8px rgba(255, 130, 162, 0.15);
+}
+
+.meal-option-icon {
+  font-size: 26px;
+  line-height: 1;
+  font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', emoji;
+}
+
+.meal-option-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.meal-option.selected .meal-option-name {
+  color: var(--pink-red);
+}
+
+.meal-option-kcal {
+  font-size: 10px;
   font-weight: 600;
-  opacity: 0.8;
+  color: var(--text-secondary);
+  white-space: nowrap;
 }
 
-.meal-tab.active .meal-tab-kcal { opacity: 0.9; }
+.meal-option.selected .meal-option-kcal {
+  color: var(--pink-red);
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .meal-selector {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .meal-option {
+    padding: 14px 10px;
+  }
+  .meal-option-icon {
+    font-size: 28px;
+  }
+  .meal-option-name {
+    font-size: 14px;
+  }
+}
 
 .food-add-row {
   display: grid;

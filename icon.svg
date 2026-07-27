@@ -5,42 +5,41 @@
       <stop offset="100%" stop-color="#f7f2ea"/>
     </linearGradient>
   </defs>
-  <!-- 圆角背景 -->
-  <rect x="20" y="20" width="472" height="472" rx="110" fill="url(#bg)"/>
+  <!-- 背景几乎撑满 -->
+  <rect x="4" y="4" width="504" height="504" rx="80" fill="url(#bg)"/>
 
-  <!-- 黑猫身体 -->
-  <ellipse cx="256" cy="330" rx="95" ry="85" fill="#2d2a30"/>
+  <!-- 黑猫身体放大 -->
+  <ellipse cx="256" cy="380" rx="160" ry="130" fill="#2d2a30"/>
 
-  <!-- 黑猫头 -->
-  <circle cx="256" cy="225" r="85" fill="#2d2a30"/>
+  <!-- 黑猫头放大 -->
+  <circle cx="256" cy="220" r="145" fill="#2d2a30"/>
 
   <!-- 左耳 -->
-  <polygon points="185,170 160,100 215,155" fill="#2d2a30"/>
-  <polygon points="185,160 170,120 205,150" fill="#ffaebc"/>
+  <polygon points="138,155 95,20 190,140" fill="#2d2a30"/>
+  <polygon points="145,145 115,55 185,135" fill="#ffaebc"/>
   <!-- 右耳 -->
-  <polygon points="327,170 352,100 297,155" fill="#2d2a30"/>
-  <polygon points="327,160 342,120 307,150" fill="#ffaebc"/>
+  <polygon points="374,155 417,20 322,140" fill="#2d2a30"/>
+  <polygon points="367,145 397,55 327,135" fill="#ffaebc"/>
 
   <!-- 闭眼 -->
-  <path d="M220,220 Q235,210 250,220" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
-  <path d="M262,220 Q277,210 292,220" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
+  <path d="M185,210 Q210,190 235,210" fill="none" stroke="white" stroke-width="10" stroke-linecap="round"/>
+  <path d="M277,210 Q302,190 327,210" fill="none" stroke="white" stroke-width="10" stroke-linecap="round"/>
 
   <!-- 腮红 -->
-  <circle cx="190" cy="250" r="14" fill="#ffaebc" opacity="0.8"/>
-  <circle cx="322" cy="250" r="14" fill="#ffaebc" opacity="0.8"/>
+  <circle cx="150" cy="250" r="22" fill="#ffaebc" opacity="0.8"/>
+  <circle cx="362" cy="250" r="22" fill="#ffaebc" opacity="0.8"/>
 
   <!-- 鼻子 -->
-  <polygon points="256,245 248,258 264,258" fill="#ff8292"/>
+  <polygon points="256,245 240,268 272,268" fill="#ff8292"/>
 
-  <!-- 前爪（抱着牌子） -->
-  <ellipse cx="205" cy="315" rx="22" ry="30" fill="#2d2a30" transform="rotate(-20 205 315)"/>
-  <ellipse cx="307" cy="315" rx="22" ry="30" fill="#2d2a30" transform="rotate(20 307 315)"/>
+  <!-- 前爪 -->
+  <ellipse cx="175" cy="345" rx="42" ry="55" fill="#2d2a30" transform="rotate(-20 175 345)"/>
+  <ellipse cx="337" cy="345" rx="42" ry="55" fill="#2d2a30" transform="rotate(20 337 345)"/>
 
-  <!-- Lily 牌子背景 -->
-  <rect x="175" y="290" width="162" height="80" rx="22" fill="white" opacity="0.95"/>
-  <!-- 牌子描边 -->
-  <rect x="175" y="290" width="162" height="80" rx="22" fill="none" stroke="#ffd8de" stroke-width="4"/>
+  <!-- Lily 牌子放大 -->
+  <rect x="118" y="305" width="276" height="120" rx="34" fill="white" opacity="0.96"/>
+  <rect x="118" y="305" width="276" height="120" rx="34" fill="none" stroke="#ffd8de" stroke-width="6"/>
 
-  <!-- Lily 文字 -->
-  <text x="256" y="350" text-anchor="middle" font-family="Nunito, Arial, sans-serif" font-weight="800" font-size="60" fill="#ff82a2">Lily</text>
+  <!-- Lily 文字放大 -->
+  <text x="256" y="400" text-anchor="middle" font-family="Nunito, Arial, sans-serif" font-weight="800" font-size="88" fill="#ff82a2">Lily</text>
 </svg>

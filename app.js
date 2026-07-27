@@ -110,6 +110,12 @@ const App = {
     };
     const mobileTitle = document.getElementById('mobileTitle');
     if (mobileTitle) mobileTitle.textContent = titles[page] || '';
+    const mobileDate = document.getElementById('mobileDate');
+    if (mobileDate) {
+      const d = new Date();
+      const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      mobileDate.textContent = `${d.getMonth() + 1}月${d.getDate()}日 · ${weekdays[d.getDay()]}`;
+    }
 
     // 滚动到顶部
     const container = document.getElementById('pageContainer');
@@ -964,16 +970,20 @@ const DietPage = {
         <div class="diet-total-label">今日总摄入热量</div>
       </div>
 
-      <div class="meal-tabs">
-        ${this.MEALS.map(m => {
-          const kcal = (data[m.id] || []).reduce((s, f) => s + f.kcal, 0);
-          return `
-            <button class="meal-tab ${this.currentMeal === m.id ? 'active' : ''}" data-meal="${m.id}">
-              <span>${m.icon} ${m.name}</span>
-              <span class="meal-tab-kcal">${kcal} kcal</span>
-            </button>
-          `;
-        }).join('')}
+      <div class="card meal-selector-card">
+        <div class="card-title">🍽️ 选择餐次</div>
+        <div class="meal-selector">
+          ${this.MEALS.map(m => {
+            const kcal = (data[m.id] || []).reduce((s, f) => s + f.kcal, 0);
+            return `
+              <div class="meal-option ${this.currentMeal === m.id ? 'selected' : ''}" data-meal="${m.id}">
+                <span class="meal-option-icon">${m.icon}</span>
+                <span class="meal-option-name">${m.name}</span>
+                <span class="meal-option-kcal">${kcal} kcal</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
       </div>
 
       <div class="card">
@@ -1090,7 +1100,7 @@ const DietPage = {
     if (!container) return;
 
     // 餐次切换
-    container.querySelectorAll('.meal-tab').forEach(el => {
+    container.querySelectorAll('.meal-option').forEach(el => {
       el.addEventListener('click', () => {
         this.currentMeal = el.dataset.meal;
         this.render();
