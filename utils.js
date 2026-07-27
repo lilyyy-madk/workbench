@@ -331,14 +331,14 @@ const FOOD_DB = [
   { name: '茶', kcal: 1 },
 ];
 
-// 饮品类型（使用 SVG 图标确保跨平台一致）
+// 饮品类型
 const DRINK_TYPES = [
-  { id: 'coffee', name: '咖啡', icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`, color: '#8b6b4e' },
-  { id: 'milktea', name: '奶茶', icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/><path d="M6 8c0-1.5 1-3 3-3s3 1.5 3 3"/><line x1="12" y1="3" x2="10" y2="8"/><line x1="7" y1="3" x2="9" y2="8"/></svg>`, color: '#d4a574' },
-  { id: 'milk', name: '牛奶', icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><line x1="10" y1="2" x2="10" y2="6"/><line x1="14" y1="2" x2="14" y2="6"/></svg>`, color: '#9a9a9a' },
-  { id: 'water', name: '水', icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>`, color: '#63BAD9' },
-  { id: 'beer', name: '啤酒', icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h8a2 2 0 0 1 2 2v8a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V8a2 2 0 0 1 2-2z"/><path d="M17 10h3a2 2 0 0 1 0 4h-3"/><path d="M9 14a2 2 0 1 0 4 0 2 2 0 0 0-4 0"/></svg>`, color: '#e8b82e' },
-  { id: 'tea', name: '茶', icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><path d="M6 1c0 3 2 4 2 7"/><path d="M10 1c0 3 2 4 2 7"/></svg>`, color: '#7dc67d' },
+  { id: 'coffee', name: '咖啡', icon: '☕', color: '#8b6b4e' },
+  { id: 'milktea', name: '奶茶', icon: '🧋', color: '#d4a574' },
+  { id: 'milk', name: '牛奶', icon: '🥛', color: '#9a9a9a' },
+  { id: 'water', name: '水', icon: '💧', color: '#63BAD9' },
+  { id: 'beer', name: '啤酒', icon: '🍺', color: '#e8b82e' },
+  { id: 'tea', name: '茶', icon: '🍵', color: '#7dc67d' },
 ];
 
 // 学习语录

@@ -658,8 +658,7 @@ select.input {
   transform: scale(1.05);
 }
 
-.drink-option-icon { font-size: 26px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); }
-.drink-option.selected .drink-option-icon { color: var(--blue-mid); }
+.drink-option-icon { font-size: 28px; display: flex; align-items: center; justify-content: center; line-height: 1; }
 
 .water-add-row {
   display: flex;
