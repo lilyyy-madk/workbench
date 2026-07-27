@@ -57,7 +57,7 @@
 html, body {
   height: 100%;
   overflow: hidden;
-  font-family: 'Nunito', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Nunito', 'Noto Sans SC', 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 15px;
   color: var(--text-primary);
   background: var(--bg-main);
@@ -185,6 +185,11 @@ html, body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  font-size: 20px;
+  line-height: 1;
+  width: 24px;
+  text-align: center;
+  font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', emoji;
 }
 
 .sidebar-footer {
@@ -658,7 +663,7 @@ select.input {
   transform: scale(1.05);
 }
 
-.drink-option-icon { font-size: 28px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+.drink-option-icon { font-size: 28px; display: flex; align-items: center; justify-content: center; line-height: 1; font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', emoji; }
 
 .water-add-row {
   display: flex;
@@ -1373,13 +1378,17 @@ select.input {
     padding: 6px;
     color: var(--text-light);
     text-decoration: none;
-    font-size: 10px;
+    font-size: 20px;
     font-weight: 600;
     transition: color 0.2s;
   }
 
   .bottom-nav-item.active {
     color: var(--green-primary);
+  }
+
+  .bottom-nav-item span {
+    font-size: 10px;
   }
 
   .page-title { font-size: 22px; }
