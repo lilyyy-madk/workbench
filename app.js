@@ -212,10 +212,13 @@ const App = {
    ============================================ */
 const TodoPage = {
   PRESET_POOL: ['运动', '行测学习', '申论学习', '12点前睡觉', '敷面膜', '打扫房间'],
+  calendarMonth: null,
 
   init() {
     // 确保当日数据存在
     this.getData(Utils.todayKey());
+    const now = new Date();
+    this.calendarMonth = { year: now.getFullYear(), month: now.getMonth() };
   },
 
   getData(dateKey) {
@@ -278,6 +281,14 @@ const TodoPage = {
           </button>
         </div>
       </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          历史记录
+        </div>
+        ${this.renderCalendar()}
+      </div>
     `;
 
     this.bindEvents();
@@ -326,6 +337,17 @@ const TodoPage = {
         if (e.key === 'Enter') this.addTask();
       });
     }
+
+    // 历史日历导航
+    container.querySelectorAll('[data-action="prev-month-todo"]').forEach(el => {
+      el.addEventListener('click', () => this.changeMonth(-1));
+    });
+    container.querySelectorAll('[data-action="next-month-todo"]').forEach(el => {
+      el.addEventListener('click', () => this.changeMonth(1));
+    });
+    container.querySelectorAll('.calendar-day[data-date]').forEach(el => {
+      el.addEventListener('click', () => this.showDayDetail(el.dataset.date));
+    });
   },
 
   toggleTask(id) {
@@ -364,6 +386,90 @@ const TodoPage = {
     input.value = '';
     this.render();
     Utils.toast('任务已添加', 'success');
+  },
+
+  renderCalendar() {
+    const { year, month } = this.calendarMonth;
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = Utils.getMonthDays(year, month);
+    const today = Utils.todayKey();
+    const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+
+    let cells = '';
+    for (let i = 0; i < firstDay; i++) cells += '<div class="calendar-day empty"></div>';
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateKey = `${year}-${Utils.pad(month + 1)}-${Utils.pad(d)}`;
+      const data = Utils.getByDate('todos', dateKey);
+      const hasData = data && data.tasks && data.tasks.length > 0;
+      const doneCount = hasData ? data.tasks.filter(t => t.done).length : 0;
+      const total = hasData ? data.tasks.length : 0;
+      const allDone = hasData && total > 0 && doneCount === total;
+      cells += `
+        <div class="calendar-day ${dateKey === today ? 'today' : ''} ${hasData ? 'has-data' : ''}"
+             data-date="${dateKey}" style="${allDone ? 'background:var(--green-light);color:var(--green-deep)' : hasData ? 'background:var(--beige)' : ''}">
+          <span class="calendar-day-num">${d}</span>
+          ${hasData ? `<span style="font-size:9px;font-weight:600">${doneCount}/${total}</span>` : ''}
+        </div>
+      `;
+    }
+
+    return `
+      <div class="calendar-header">
+        <button class="calendar-nav-btn" data-action="prev-month-todo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <span class="calendar-month">${year}年${month + 1}月</span>
+        <button class="calendar-nav-btn" data-action="next-month-todo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+      <div class="calendar-grid">
+        ${weekdays.map(w => `<div class="calendar-weekday">${w}</div>`).join('')}
+        ${cells}
+      </div>
+    `;
+  },
+
+  changeMonth(delta) {
+    let { year, month } = this.calendarMonth;
+    month += delta;
+    if (month < 0) { month = 11; year--; }
+    if (month > 11) { month = 0; year++; }
+    this.calendarMonth = { year, month };
+    this.render();
+  },
+
+  showDayDetail(dateKey) {
+    const data = Utils.getByDate('todos', dateKey);
+    const isToday = dateKey === Utils.todayKey();
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+      <div class="modal-box" style="max-width:380px">
+        <div class="modal-title">待办记录 · ${dateKey}${isToday ? '（今日）' : ''}</div>
+        <div class="modal-body">
+          ${data && data.tasks && data.tasks.length > 0
+            ? data.tasks.map(t => `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--divider);font-size:14px">
+                <span style="width:18px;height:18px;border-radius:50%;border:2px solid ${t.done?'var(--green-primary)':'var(--text-light)'};background:${t.done?'var(--green-primary)':'transparent'};display:flex;align-items:center;justify-content:center;color:white;font-size:11px">${t.done?'✓':''}</span>
+                <span style="${t.done?'text-decoration:line-through;color:var(--text-light)':''}">${Utils.escapeHtml(t.name)}</span>
+                ${t.preset ? '<span class="todo-badge">预设</span>' : '<span class="todo-badge custom">自定义</span>'}
+              </div>`).join('') + `
+              <div style="display:flex;justify-content:space-between;padding:12px 0;font-weight:700">
+                <span>完成情况</span><span style="color:var(--green-deep)">${data.tasks.filter(t=>t.done).length}/${data.tasks.length}</span>
+              </div>
+            `
+            : '<div style="text-align:center;color:var(--text-light);padding:20px 0">当天暂无待办记录</div>'
+          }
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" data-act="close">关闭</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('modalContainer').appendChild(modal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target.closest('[data-act="close"]')) modal.remove();
+    });
   },
 };
 
@@ -863,14 +969,6 @@ const DietPage = {
         <div class="diet-total-label">今日总摄入热量</div>
       </div>
 
-      <div class="card">
-        <div class="card-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          历史日期
-        </div>
-        ${this.renderCalendar()}
-      </div>
-
       <div class="meal-tabs">
         ${this.MEALS.map(m => {
           const kcal = (data[m.id] || []).reduce((s, f) => s + f.kcal, 0);
@@ -913,6 +1011,14 @@ const DietPage = {
         <div id="mealFoodList">
           ${this.renderMealList(data[this.currentMeal] || [])}
         </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          历史记录
+        </div>
+        ${this.renderCalendar()}
       </div>
     `;
 
@@ -1270,8 +1376,12 @@ const DietPage = {
    4. 每日学习页面
    ============================================ */
 const StudyPage = {
+  calendarMonth: null,
+
   init() {
     this.getData(Utils.todayKey());
+    const now = new Date();
+    this.calendarMonth = { year: now.getFullYear(), month: now.getMonth() };
   },
 
   getData(dateKey) {
@@ -1343,6 +1453,14 @@ const StudyPage = {
           </button>
         </div>
       </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          历史记录
+        </div>
+        ${this.renderCalendar()}
+      </div>
     `;
 
     this.bindEvents();
@@ -1399,6 +1517,17 @@ const StudyPage = {
         if (e.key === 'Enter') this.addTask();
       });
     }
+
+    // 历史日历导航
+    container.querySelectorAll('[data-action="prev-month-study"]').forEach(el => {
+      el.addEventListener('click', () => this.changeMonth(-1));
+    });
+    container.querySelectorAll('[data-action="next-month-study"]').forEach(el => {
+      el.addEventListener('click', () => this.changeMonth(1));
+    });
+    container.querySelectorAll('.calendar-day[data-date]').forEach(el => {
+      el.addEventListener('click', () => this.showDayDetail(el.dataset.date));
+    });
   },
 
   toggleTask(id) {
@@ -1456,6 +1585,97 @@ const StudyPage = {
       // 局部更新顶部时长显示
       this.render();
     }
+  },
+
+  renderCalendar() {
+    const { year, month } = this.calendarMonth;
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = Utils.getMonthDays(year, month);
+    const today = Utils.todayKey();
+    const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+
+    let cells = '';
+    for (let i = 0; i < firstDay; i++) cells += '<div class="calendar-day empty"></div>';
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateKey = `${year}-${Utils.pad(month + 1)}-${Utils.pad(d)}`;
+      const data = Utils.getByDate('study', dateKey);
+      const hasData = data && data.tasks && data.tasks.length > 0;
+      const doneCount = hasData ? data.tasks.filter(t => t.done).length : 0;
+      const total = hasData ? data.tasks.length : 0;
+      const dur = hasData ? (data.totalDuration || 0) : 0;
+      const allDone = hasData && total > 0 && doneCount === total;
+      cells += `
+        <div class="calendar-day ${dateKey === today ? 'today' : ''} ${hasData ? 'has-data' : ''}"
+             data-date="${dateKey}" style="${allDone ? 'background:var(--blue-soft);color:var(--blue-mid)' : hasData ? 'background:var(--beige)' : ''}">
+          <span class="calendar-day-num">${d}</span>
+          ${hasData ? `<span style="font-size:9px;font-weight:600">${dur>0?dur+'m':doneCount+'/'+total}</span>` : ''}
+        </div>
+      `;
+    }
+
+    return `
+      <div class="calendar-header">
+        <button class="calendar-nav-btn" data-action="prev-month-study">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <span class="calendar-month">${year}年${month + 1}月</span>
+        <button class="calendar-nav-btn" data-action="next-month-study">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+      <div class="calendar-grid">
+        ${weekdays.map(w => `<div class="calendar-weekday">${w}</div>`).join('')}
+        ${cells}
+      </div>
+    `;
+  },
+
+  changeMonth(delta) {
+    let { year, month } = this.calendarMonth;
+    month += delta;
+    if (month < 0) { month = 11; year--; }
+    if (month > 11) { month = 0; year++; }
+    this.calendarMonth = { year, month };
+    this.render();
+  },
+
+  showDayDetail(dateKey) {
+    const data = Utils.getByDate('study', dateKey);
+    const isToday = dateKey === Utils.todayKey();
+    const dur = data ? (data.totalDuration || 0) : 0;
+    const hours = Math.floor(dur / 60);
+    const mins = dur % 60;
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+      <div class="modal-box" style="max-width:380px">
+        <div class="modal-title">学习记录 · ${dateKey}${isToday ? '（今日）' : ''}</div>
+        <div class="modal-body">
+          ${data && data.tasks && data.tasks.length > 0
+            ? `<div style="display:flex;justify-content:space-between;padding:8px 12px;background:var(--blue-soft);border-radius:8px;margin-bottom:12px">
+                <span style="font-weight:700;color:var(--blue-mid)">学习时长</span>
+                <span style="font-weight:700;color:var(--blue-mid)">${hours}h ${mins}min</span>
+              </div>` + data.tasks.map(t => `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--divider);font-size:14px">
+                <span style="width:18px;height:18px;border-radius:50%;border:2px solid ${t.done?'var(--pink-hot)':'var(--text-light)'};background:${t.done?'var(--pink-hot)':'transparent'};display:flex;align-items:center;justify-content:center;color:white;font-size:11px">${t.done?'✓':''}</span>
+                <span style="${t.done?'text-decoration:line-through;color:var(--text-light)':''}">${Utils.escapeHtml(t.name)}</span>
+                ${t.duration ? `<span style="font-size:12px;color:var(--text-light);margin-left:auto">${t.duration}min</span>` : ''}
+              </div>`).join('') + `
+              <div style="display:flex;justify-content:space-between;padding:12px 0;font-weight:700">
+                <span>完成情况</span><span style="color:var(--pink-red)">${data.tasks.filter(t=>t.done).length}/${data.tasks.length}</span>
+              </div>
+            `
+            : '<div style="text-align:center;color:var(--text-light);padding:20px 0">当天暂无学习记录</div>'
+          }
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" data-act="close">关闭</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('modalContainer').appendChild(modal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target.closest('[data-act="close"]')) modal.remove();
+    });
   },
 
   showForceModal() {
@@ -1726,18 +1946,18 @@ const FitnessPage = {
 
       <div class="card">
         <div class="card-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          本月健身日历
-        </div>
-        ${this.renderCalendar()}
-      </div>
-
-      <div class="card">
-        <div class="card-title">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           今日记录
         </div>
         ${this.renderTodayRecords()}
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          历史记录
+        </div>
+        ${this.renderCalendar()}
       </div>
     `;
 
