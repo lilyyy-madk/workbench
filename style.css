@@ -239,9 +239,10 @@ html, body {
 }
 
 .mobile-title {
-  font-size: 17px;
-  font-weight: 700;
+  font-size: 19px;
+  font-weight: 800;
   color: var(--text-primary);
+  font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Nunito', 'Noto Sans SC', sans-serif;
 }
 
 .page-container {
@@ -277,9 +278,10 @@ html, body {
 }
 
 .mobile-title {
-  font-size: 17px;
-  font-weight: 700;
+  font-size: 19px;
+  font-weight: 800;
   color: var(--text-primary);
+  font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Nunito', 'Noto Sans SC', sans-serif;
 }
 
 .mobile-date {
@@ -293,13 +295,14 @@ html, body {
 }
 
 .page-title {
-  font-size: 26px;
+  font-size: 30px;
   font-weight: 800;
   color: var(--text-primary);
   margin-bottom: 4px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Nunito', 'Noto Sans SC', sans-serif;
 }
 
 .page-subtitle {
@@ -902,24 +905,25 @@ select.input {
 }
 
 .meal-selector {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .meal-option {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 12px 8px;
+  gap: 3px;
+  padding: 8px 12px;
   border-radius: var(--radius-md);
   border: 2px solid var(--divider);
   background: var(--white);
   cursor: pointer;
   transition: all 0.2s;
   text-align: center;
-  min-width: 0;
+  min-width: 60px;
 }
 
 .meal-option:hover {
@@ -936,13 +940,13 @@ select.input {
 }
 
 .meal-option-icon {
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1;
   font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', emoji;
 }
 
 .meal-option-name {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--text-primary);
 }
@@ -961,21 +965,6 @@ select.input {
 .meal-option.selected .meal-option-kcal {
   color: var(--pink-red);
   opacity: 0.9;
-}
-
-@media (max-width: 768px) {
-  .meal-selector {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .meal-option {
-    padding: 14px 10px;
-  }
-  .meal-option-icon {
-    font-size: 28px;
-  }
-  .meal-option-name {
-    font-size: 14px;
-  }
 }
 
 .food-add-row {
@@ -1461,8 +1450,6 @@ select.input {
   .bottom-nav-item span {
     font-size: 10px;
   }
-
-  .page-title { font-size: 22px; }
 
   .progress-ring { width: 150px; height: 150px; }
   .ring-value { font-size: 28px; }

@@ -103,19 +103,40 @@ const App = {
       this.refreshPage(page);
     }
 
-    // 更新移动端标题
-    const titles = {
-      todo: '待办事项', water: '喝水提醒', diet: '饮食记录',
-      study: '每日学习', fitness: '健身计划', settings: '设置'
+    // 更新移动端标题（带 emoji 图标）+ 顶部栏配色 + theme-color
+    const pageMeta = {
+      todo:    { title: '✅ 待办事项', color: '#E4F6A9', deep: '#5ba85b', theme: '#7dc67d' },
+      water:   { title: '💧 喝水提醒', color: '#CAEBED', deep: '#4ea8c9', theme: '#63BAD9' },
+      diet:    { title: '🍽️ 饮食记录', color: '#FED0D6', deep: '#F8819B', theme: '#FF82A2' },
+      study:   { title: '📚 每日学习', color: '#EFE4D4', deep: '#b58a4a', theme: '#EFE4D4' },
+      fitness: { title: '🏃 健身计划', color: '#E4F6A9', deep: '#5ba85b', theme: '#7dc67d' },
+      settings:{ title: '⚙️ 设置',     color: '#f0f0ec', deep: '#8a9a8a', theme: '#7dc67d' },
     };
+    const meta = pageMeta[page] || pageMeta.todo;
     const mobileTitle = document.getElementById('mobileTitle');
-    if (mobileTitle) mobileTitle.textContent = titles[page] || '';
+    if (mobileTitle) mobileTitle.textContent = meta.title;
     const mobileDate = document.getElementById('mobileDate');
     if (mobileDate) {
       const d = new Date();
       const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
       mobileDate.textContent = `${d.getMonth() + 1}月${d.getDate()}日 · ${weekdays[d.getDay()]}`;
     }
+    // 顶部栏背景跟随页面主题色（与添加按钮色系一致）
+    const mobileHeader = document.querySelector('.mobile-header');
+    if (mobileHeader) {
+      mobileHeader.style.background = meta.color;
+      mobileHeader.style.borderColor = meta.color;
+    }
+    // 同时更新 mobile-title 文字深色，保证对比度
+    if (mobileTitle) mobileTitle.style.color = meta.deep;
+    const mobileDateEl = document.getElementById('mobileDate');
+    if (mobileDateEl) mobileDateEl.style.color = meta.deep;
+    // 菜单按钮图标颜色跟随
+    const menuBtn = document.getElementById('menuBtn');
+    if (menuBtn) menuBtn.style.color = meta.deep;
+    // 状态栏 theme-color
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeMeta) themeMeta.setAttribute('content', meta.theme);
 
     // 滚动到顶部
     const container = document.getElementById('pageContainer');
@@ -255,7 +276,7 @@ const TodoPage = {
 
     container.innerHTML = `
       <div class="page-header">
-        <h1 class="page-title">待办事项</h1>
+        <h1 class="page-title">✅ 待办事项</h1>
         <p class="page-subtitle">今天有 ${total} 件事要做，已完成 ${doneCount} 件</p>
       </div>
 
@@ -513,7 +534,7 @@ const WaterPage = {
 
     container.innerHTML = `
       <div class="page-header">
-        <h1 class="page-title">喝水提醒</h1>
+        <h1 class="page-title">💧 喝水提醒</h1>
         <p class="page-subtitle">每日目标 ${this.DAILY_GOAL}ml · 9:30 和 15:30 提醒</p>
       </div>
 
@@ -960,7 +981,7 @@ const DietPage = {
 
     container.innerHTML = `
       <div class="page-header">
-        <h1 class="page-title">饮食记录</h1>
+        <h1 class="page-title">🍽️ 饮食记录</h1>
         <p class="page-subtitle">记录每日饮食，自动估算热量</p>
       </div>
 
@@ -1414,7 +1435,7 @@ const StudyPage = {
 
     container.innerHTML = `
       <div class="page-header">
-        <h1 class="page-title">每日学习</h1>
+        <h1 class="page-title">📚 每日学习</h1>
         <p class="page-subtitle">今日已学习 ${hours}小时${mins}分钟 · 完成 ${doneCount}/${total}</p>
       </div>
 
@@ -1917,7 +1938,7 @@ const FitnessPage = {
 
     container.innerHTML = `
       <div class="page-header">
-        <h1 class="page-title">健身计划</h1>
+        <h1 class="page-title">🏃 健身计划</h1>
         <p class="page-subtitle">每周目标 ${this.WEEKLY_GOAL} 分钟 · ${achieved ? '已达标 ✅' : '继续加油'}</p>
       </div>
 
@@ -2175,7 +2196,7 @@ const SettingsPage = {
 
     container.innerHTML = `
       <div class="page-header">
-        <h1 class="page-title">设置</h1>
+        <h1 class="page-title">⚙️ 设置</h1>
         <p class="page-subtitle">全局配置与数据管理</p>
       </div>
 
