@@ -315,6 +315,9 @@ html, body {
   font-size: 10px;
   color: var(--text-secondary);
   font-weight: 500;
+  width: 100%;
+  text-align: center;
+  display: block;
 }
 
 .page-header {

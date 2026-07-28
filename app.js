@@ -108,13 +108,26 @@ const App = {
       todo:    { title: '✅ 待办事项', color: '#E4F6A9', deep: '#5ba85b', theme: '#7dc67d' },
       water:   { title: '💧 喝水提醒', color: '#CAEBED', deep: '#4ea8c9', theme: '#63BAD9' },
       diet:    { title: '🍽️ 饮食记录', color: '#FED0D6', deep: '#F8819B', theme: '#FF82A2' },
-      study:   { title: '📚 每日学习', color: '#c9a063', deep: '#ffffff', theme: '#c9a063' },
+      study:   { title: '📚 每日学习', color: '#c9a063', deep: '#ffffff', theme: '#c9a063', titleColor: '#9a7040', titleBg: '#f5e9d8' },
       fitness: { title: '🏃 健身计划', color: '#FAE593', deep: '#FE8F29', theme: '#FE8F29' },
       settings:{ title: '⚙️ 设置',     color: '#f0f0ec', deep: '#8a9a8a', theme: '#7dc67d' },
     };
     const meta = pageMeta[page] || pageMeta.todo;
     const mobileTitle = document.getElementById('mobileTitle');
-    if (mobileTitle) mobileTitle.textContent = meta.title;
+    if (mobileTitle) {
+      mobileTitle.textContent = meta.title;
+      if (meta.titleBg) {
+        mobileTitle.style.background = meta.titleBg;
+        mobileTitle.style.color = meta.titleColor || meta.deep;
+        mobileTitle.style.padding = '5px 14px';
+        mobileTitle.style.borderRadius = '24px';
+      } else {
+        mobileTitle.style.background = 'transparent';
+        mobileTitle.style.color = meta.deep;
+        mobileTitle.style.padding = '0';
+        mobileTitle.style.borderRadius = '0';
+      }
+    }
     const mobileDate = document.getElementById('mobileDate');
     if (mobileDate) {
       const d = new Date();
@@ -127,8 +140,8 @@ const App = {
       mobileHeader.style.background = meta.color;
       mobileHeader.style.borderColor = meta.color;
     }
-    // 同时更新 mobile-title 文字深色，保证对比度
-    if (mobileTitle) mobileTitle.style.color = meta.deep;
+    // 同时更新 mobile-title 文字颜色（若单独指定 titleColor 则优先）
+    if (mobileTitle && !meta.titleBg) mobileTitle.style.color = meta.deep;
     const mobileDateEl = document.getElementById('mobileDate');
     if (mobileDateEl) mobileDateEl.style.color = meta.deep;
     // 菜单按钮图标颜色跟随
