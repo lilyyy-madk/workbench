@@ -347,3 +347,18 @@ const STUDY_QUOTES = [
   { emoji: '💪', text: '成功的人怎么不能是你？继续学习吧！' },
   { emoji: '⭐', text: '今天的努力是明天的底气！' },
 ];
+
+// 页面标题右侧装饰图案（简笔画风格）
+const PAGE_DECORATIONS = {
+  todo: `<svg viewBox="0 0 64 64" width="36" height="36" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="30" r="18"/><path d="M18 14 L14 6 L26 12"/><path d="M46 14 L50 6 L38 12"/><path d="M24 28 L30 34 L42 22"/><path d="M22 52 L18 62"/><path d="M42 52 L46 62"/></svg>`,
+
+  water: `<svg viewBox="0 0 64 64" width="36" height="36" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 48 Q12 32 24 28 Q20 20 28 18 Q32 10 36 18 Q44 20 40 28 Q52 32 52 48 Q52 58 32 58 Q12 58 12 48 Z"/><path d="M42 12 Q46 4 50 12 Q54 20 48 22"/><circle cx="24" cy="40" r="2" fill="currentColor" stroke="none"/><circle cx="40" cy="40" r="2" fill="currentColor" stroke="none"/></svg>`,
+
+  diet: `<svg viewBox="0 0 64 64" width="36" height="36" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 24 Q10 10 32 10 Q54 10 54 24"/><path d="M10 24 L54 24 L50 52 Q50 58 32 58 Q14 58 14 52 Z"/><circle cx="32" cy="32" r="3" fill="currentColor" stroke="none"/><path d="M22 40 Q32 46 42 40"/><path d="M16 20 Q32 14 48 20"/></svg>`,
+
+  study: `<svg viewBox="0 0 64 64" width="36" height="36" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="24" r="14"/><path d="M22 16 L30 24 L22 32"/><path d="M32 38 L32 56"/><path d="M22 56 L42 56"/><path d="M48 14 L54 8"/><path d="M54 14 L48 8"/></svg>`,
+
+  fitness: `<svg viewBox="0 0 64 64" width="36" height="36" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 48 Q10 40 18 32 Q14 24 22 22 Q26 14 34 18 Q42 14 46 22 Q54 24 50 32 Q58 40 50 48 Q52 56 44 58 Q36 62 28 58 Q20 56 22 48"/><circle cx="26" cy="34" r="2" fill="currentColor" stroke="none"/><circle cx="42" cy="34" r="2" fill="currentColor" stroke="none"/></svg>`,
+
+  settings: `<svg viewBox="0 0 64 64" width="36" height="36" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="20"/><path d="M18 16 L14 10 L24 14"/><path d="M46 16 L50 10 L40 14"/><path d="M26 40 Q32 44 38 40"/><path d="M18 48 L16 56"/><path d="M46 48 L48 56"/></svg>`,
+};

@@ -312,6 +312,16 @@ html, body {
   font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', 'Nunito', 'Noto Sans SC', sans-serif;
 }
 
+.page-title-decor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: var(--text-secondary);
+  margin-left: 2px;
+}
+
 .page-subtitle {
   font-size: 13px;
   color: var(--text-secondary);

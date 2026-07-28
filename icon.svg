@@ -5,41 +5,36 @@
       <stop offset="100%" stop-color="#f7f2ea"/>
     </linearGradient>
   </defs>
-  <!-- 背景几乎撑满 -->
-  <rect x="4" y="4" width="504" height="504" rx="80" fill="url(#bg)"/>
+  <!-- 背景 -->
+  <rect x="4" y="4" width="504" height="504" rx="96" fill="url(#bg)"/>
 
-  <!-- 黑猫身体放大 -->
-  <ellipse cx="256" cy="380" rx="160" ry="130" fill="#2d2a30"/>
-
-  <!-- 黑猫头放大 -->
-  <circle cx="256" cy="220" r="145" fill="#2d2a30"/>
-
-  <!-- 左耳 -->
-  <polygon points="138,155 95,20 190,140" fill="#2d2a30"/>
-  <polygon points="145,145 115,55 185,135" fill="#ffaebc"/>
-  <!-- 右耳 -->
-  <polygon points="374,155 417,20 322,140" fill="#2d2a30"/>
-  <polygon points="367,145 397,55 327,135" fill="#ffaebc"/>
-
-  <!-- 闭眼 -->
-  <path d="M185,210 Q210,190 235,210" fill="none" stroke="white" stroke-width="10" stroke-linecap="round"/>
-  <path d="M277,210 Q302,190 327,210" fill="none" stroke="white" stroke-width="10" stroke-linecap="round"/>
-
-  <!-- 腮红 -->
-  <circle cx="150" cy="250" r="22" fill="#ffaebc" opacity="0.8"/>
-  <circle cx="362" cy="250" r="22" fill="#ffaebc" opacity="0.8"/>
-
-  <!-- 鼻子 -->
-  <polygon points="256,245 240,268 272,268" fill="#ff8292"/>
-
-  <!-- 前爪 -->
-  <ellipse cx="175" cy="345" rx="42" ry="55" fill="#2d2a30" transform="rotate(-20 175 345)"/>
-  <ellipse cx="337" cy="345" rx="42" ry="55" fill="#2d2a30" transform="rotate(20 337 345)"/>
-
-  <!-- Lily 牌子放大 -->
-  <rect x="118" y="305" width="276" height="120" rx="34" fill="white" opacity="0.96"/>
-  <rect x="118" y="305" width="276" height="120" rx="34" fill="none" stroke="#ffd8de" stroke-width="6"/>
-
-  <!-- Lily 文字放大 -->
-  <text x="256" y="400" text-anchor="middle" font-family="Nunito, Arial, sans-serif" font-weight="800" font-size="88" fill="#ff82a2">Lily</text>
+  <!-- 简笔画可爱猫咪：趴着歪头 -->
+  <g fill="none" stroke="#2d2a30" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 身体 -->
+    <path d="M150 360 C150 290 190 260 256 260 C322 260 370 290 370 360 C370 405 330 430 256 430 C190 430 150 405 150 360 Z"/>
+    <!-- 头 -->
+    <circle cx="256" cy="210" r="95"/>
+    <!-- 左耳 -->
+    <path d="M185 150 L175 80 L235 130"/>
+    <!-- 右耳 -->
+    <path d="M327 150 L337 80 L277 130"/>
+    <!-- 闭眼 -->
+    <path d="M215 205 Q235 190 255 205"/>
+    <path d="M257 205 Q277 190 297 205"/>
+    <!-- 鼻子 -->
+    <path d="M248 225 L256 235 L264 225 Z" fill="#ffaebc" stroke="none"/>
+    <!-- 嘴巴 -->
+    <path d="M256 235 Q240 250 225 240"/>
+    <path d="M256 235 Q272 250 287 240"/>
+    <!-- 胡须 -->
+    <line x1="180" y1="215" x2="140" y2="205"/>
+    <line x1="180" y1="230" x2="142" y2="235"/>
+    <line x1="332" y1="215" x2="372" y2="205"/>
+    <line x1="332" y1="230" x2="370" y2="235"/>
+    <!-- 前爪 -->
+    <ellipse cx="205" cy="370" rx="22" ry="30"/>
+    <ellipse cx="307" cy="370" rx="22" ry="30"/>
+    <!-- 尾巴 -->
+    <path d="M360 380 Q420 380 420 330 Q420 300 395 300"/>
+  </g>
 </svg>
