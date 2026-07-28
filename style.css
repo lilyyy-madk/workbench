@@ -253,7 +253,6 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
   text-align: center;
 }
 
@@ -312,12 +311,7 @@ html, body {
 }
 
 .mobile-date {
-  font-size: 10px;
-  color: var(--text-secondary);
-  font-weight: 500;
-  width: 100%;
-  text-align: center;
-  display: block;
+  display: none;
 }
 
 .page-header {
