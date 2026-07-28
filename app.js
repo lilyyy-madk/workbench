@@ -2239,7 +2239,10 @@ const SettingsPage = {
             <div class="settings-label">已存储记录</div>
             <div class="settings-desc">${dataCount} 条日期数据 · 约 ${storageSize} KB</div>
           </div>
-          <button class="btn btn-sm btn-outline" id="exportBtn">导出</button>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-sm btn-outline" id="exportBtn">导出备份</button>
+            <button class="btn btn-sm btn-outline" id="importBtn">导入恢复</button>
+          </div>
         </div>
         <div class="settings-item">
           <div>
@@ -2304,6 +2307,11 @@ const SettingsPage = {
       exportBtn.addEventListener('click', () => this.exportData());
     }
 
+    const importBtn = document.getElementById('importBtn');
+    if (importBtn) {
+      importBtn.addEventListener('click', () => this.importData());
+    }
+
     const clearBtn = document.getElementById('clearBtn');
     if (clearBtn) {
       clearBtn.addEventListener('click', async () => {
@@ -2333,7 +2341,38 @@ const SettingsPage = {
     a.download = `workbench_backup_${Utils.todayKey()}.json`;
     a.click();
     URL.revokeObjectURL(url);
-    Utils.toast('数据已导出', 'success');
+    Utils.toast('数据已导出，请妥善保存备份文件', 'success');
+  },
+
+  importData() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'application/json,.json';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (ev) => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          const ok = await Utils.confirm('导入将覆盖当前数据，确定继续吗？', '导入数据');
+          if (!ok) return;
+          let count = 0;
+          for (const key in data) {
+            if (Object.prototype.hasOwnProperty.call(data, key)) {
+              localStorage.setItem(key, data[key]);
+              count++;
+            }
+          }
+          Utils.toast(`已导入 ${count} 条记录，即将刷新`, 'success');
+          setTimeout(() => location.reload(), 1200);
+        } catch (err) {
+          Utils.toast('备份文件格式错误，导入失败', 'error');
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
   },
 };
 
