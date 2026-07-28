@@ -134,6 +134,12 @@ const App = {
     // 菜单按钮图标颜色跟随
     const menuBtn = document.getElementById('menuBtn');
     if (menuBtn) menuBtn.style.color = meta.deep;
+    // 右上角猫咪图案（每页不同）
+    const mobileCorner = document.getElementById('mobileCorner');
+    if (mobileCorner) {
+      mobileCorner.innerHTML = PAGE_DECORATIONS[page] || '';
+      mobileCorner.style.color = meta.deep;
+    }
     // 状态栏 theme-color
     const themeMeta = document.querySelector('meta[name="theme-color"]');
     if (themeMeta) themeMeta.setAttribute('content', meta.theme);
