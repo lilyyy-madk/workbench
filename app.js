@@ -32,6 +32,10 @@ const App = {
     FitnessPage.init();
     SettingsPage.init();
 
+    // ���云端拉取数据（异步，不阻塞界面）
+    if (typeof Sync !== 'undefined' && Sync.isConfigured()) {
+      Sync.pullOnStart();
+    }
     // 路由处理
     this.handleRoute();
 
@@ -2227,6 +2231,38 @@ const SettingsPage = {
       </div>
 
       <div class="card">
+        <div class="card-title">☁️ 云端同步</div>
+        <div class="settings-section">
+          <div class="settings-item">
+            <div>
+              <div class="settings-label">同步状态</div>
+              <div class="settings-desc" id="syncStatusDesc">${Sync.isConfigured() ? '已绑定 · 自动同步中' : '未绑定 · 数据仅存本地（可能丢失）'}</div>
+            </div>
+            <button class="btn btn-sm ${Sync.isConfigured() ? 'btn-outline' : 'btn-primary'}" id="syncBindBtn">${Sync.isConfigured() ? '解绑' : '绑定'}</button>
+          </div>
+          ${Sync.isConfigured() ? `
+          <div class="settings-item">
+            <div>
+              <div class="settings-label">自动同步</div>
+              <div class="settings-desc">数据变动自动上传云端</div>
+            </div>
+            <div class="switch on" id="autoSyncSwitch"></div>
+          </div>
+          <div class="settings-item">
+            <div>
+              <div class="settings-label">立即操作</div>
+              <div class="settings-desc">手动上传或拉取云端数据</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-sm btn-outline" id="syncUploadBtn">上传</button>
+              <button class="btn btn-sm btn-outline" id="syncDownloadBtn">拉取</button>
+            </div>
+          </div>
+          ` : ''}
+        </div>
+      </div>
+
+      <div class="card">
         <div class="card-title">数据管理</div>
         <div class="settings-item">
           <div>
@@ -2306,6 +2342,28 @@ const SettingsPage = {
       importBtn.addEventListener('click', () => this.importData());
     }
 
+    // 云端同步
+    const syncBindBtn = document.getElementById('syncBindBtn');
+    if (syncBindBtn) {
+      syncBindBtn.addEventListener('click', () => this.handleSyncBind());
+    }
+    const syncUploadBtn = document.getElementById('syncUploadBtn');
+    if (syncUploadBtn) {
+      syncUploadBtn.addEventListener('click', () => this.handleSyncUpload());
+    }
+    const syncDownloadBtn = document.getElementById('syncDownloadBtn');
+    if (syncDownloadBtn) {
+      syncDownloadBtn.addEventListener('click', () => this.handleSyncDownload());
+    }
+    const autoSyncSwitch = document.getElementById('autoSyncSwitch');
+    if (autoSyncSwitch) {
+      autoSyncSwitch.addEventListener('click', () => {
+        autoSyncSwitch.classList.toggle('on');
+        Sync._autoSyncEnabled = autoSyncSwitch.classList.contains('on');
+        Utils.toast(Sync._autoSyncEnabled ? '已开启自动同步' : '已关闭自动同步', 'info');
+      });
+    }
+
     const clearBtn = document.getElementById('clearBtn');
     if (clearBtn) {
       clearBtn.addEventListener('click', async () => {
@@ -2320,6 +2378,63 @@ const SettingsPage = {
         }
       });
     }
+  },
+
+  handleSyncBind() {
+    if (Sync.isConfigured()) {
+      Utils.confirm('解绑后云端数据仍保留，但不再自动同步。确定解绑？', '解绑云端').then(ok => {
+        if (ok) {
+          Sync.unbind();
+          Utils.toast('已解绑云端同步', 'info');
+          this.render();
+        }
+      });
+    } else {
+      const token = window.prompt('请输入 GitHub Personal Access Token\n（需要 gist 权限）\n\n获取方式：github.com → Settings → Developer settings → Personal access tokens → Generate new token（勾选 gist）');
+      if (token && token.trim()) {
+        Utils.toast('正在验证 Token...', 'info');
+        Sync.verifyToken(token.trim()).then(r => {
+          if (r.ok) {
+            Sync.setToken(token.trim());
+            Utils.toast('Token 验证成功，正在创建云端备份...', 'success');
+            Sync.upload().then(res => {
+              if (res.ok) {
+                Utils.toast('云端同步已绑定！数据将自动备份', 'success');
+                this.render();
+              } else {
+                Utils.toast('绑定失败：' + res.msg, 'error');
+              }
+            });
+          } else {
+            Utils.toast('Token 无效：' + r.msg, 'error');
+          }
+        });
+      }
+    }
+  },
+
+  handleSyncUpload() {
+    Utils.toast('正在上传到云端...', 'info');
+    Sync.upload().then(r => {
+      Utils.toast(r.ok ? '上传成功' : '上传失败：' + r.msg, r.ok ? 'success' : 'error');
+    });
+  },
+
+  handleSyncDownload() {
+    Utils.confirm('从云端拉取将覆盖本地较旧的数据，确定继续？', '拉取云端').then(ok => {
+      if (!ok) return;
+      Utils.toast('正在从云端拉取...', 'info');
+      Sync.download().then(r => {
+        if (r.ok) {
+          Utils.toast(r.msg, 'success');
+          if (r.updated) {
+            setTimeout(() => location.reload(), 1000);
+          }
+        } else {
+          Utils.toast('拉取失败：' + r.msg, 'error');
+        }
+      });
+    });
   },
 
   exportData() {

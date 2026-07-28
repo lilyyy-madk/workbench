@@ -73,6 +73,8 @@ const Utils = {
   set(key, val) {
     try {
       localStorage.setItem(key, JSON.stringify(val));
+      // 触发云端自动同步
+      if (typeof Sync !== 'undefined' && Sync.scheduleUpload) Sync.scheduleUpload();
       return true;
     } catch (e) {
       console.error('存储失败:', key, e);
